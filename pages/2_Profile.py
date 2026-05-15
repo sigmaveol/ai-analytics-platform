@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 import streamlit as st
 from auth.authenticator import require_auth
 from core.profiler import profile, completeness_table
+from core.preprocessor import auto_clean, outlier_summary
 from viz.charts import histogram, bar, pie
 import pandas as pd
 
@@ -55,6 +56,24 @@ if cat_cols:
     st.plotly_chart(fig, use_container_width=True)
 
 # ── Sample data ────────────────────────────────────────────────────────────────
+# ── Outlier detection ─────────────────────────────────────────────────────────
+st.subheader("Phát hiện Outliers")
+out_df = outlier_summary(df)
+if not out_df.empty:
+    st.dataframe(out_df, use_container_width=True, hide_index=True)
+else:
+    st.success("Không phát hiện outlier đáng kể.")
+
+# ── Auto-clean ────────────────────────────────────────────────────────────────
+st.subheader("Tự động làm sạch dữ liệu")
+if st.button("Chạy Auto-Clean Pipeline", use_container_width=True):
+    with st.spinner("Đang làm sạch..."):
+        df_clean, log = auto_clean(df)
+    st.session_state.df = df_clean
+    st.success(f"Hoàn thành! {len(df_clean):,} hàng · {len(df_clean.columns)} cột")
+    for line in log:
+        st.write(f"- {line}")
+
 with st.expander("Xem dữ liệu mẫu (10 dòng đầu)"):
     st.dataframe(df.head(10), use_container_width=True)
 

@@ -4,7 +4,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 import streamlit as st
 from auth.authenticator import require_auth
-from ai.insight_generator import generate_insights, generate_executive_summary, suggest_domain, suggest_charts
+from ai.insight_generator import generate_insights, generate_executive_summary, suggest_domain
+from ai.chart_suggester import suggest as suggest_charts
 from viz.charts import render_from_config
 
 st.set_page_config(page_title="AI Insights", page_icon="🤖", layout="wide")
