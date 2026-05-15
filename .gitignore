@@ -1,0 +1,25 @@
+# Secrets — NEVER commit
+.streamlit/secrets.toml
+auth/users.yaml
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Data (large files)
+data/samples/*.parquet
+data/samples/*.csv
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
